@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html ng-app="sweeper">
+
+<head>
+    <title>Mine Sweeper</title>
+    <link rel="shortcut icon" type="image/x-icon" href="pic/bomb.png" />
+    <script data-require="angular.js@4.0.0" data-semver="4.0.0" src="https://code.angularjs.org/latest/angular.min.js"></script>
+    <!--<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.6/angular.min.js"></script>-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="js/game.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/style.css" />
+</head>
+
+<body>
+<header>
+    <div id="myMenunav">
+        <ul>
+            <li>
+                <a id="manLogin" data-toggle="modal" data-target="#myModal">New Game</a>
+            </li>
+            <li>
+                <input type="checkbox" ng-model="myCheckBox" id="c1" />
+                <label for="c1">
+                    <span></span>
+                    <myfont>godMod</myfont>
+                </label>
+            </li>
+        </ul>
+    </div>
+</header>
+<div class="logo">
+    <img src="pic/Minesweeper_Icon.png" class="logo" />
+</div>
+<div ng-controller="Minesweeper" class="Minesweeper">
+    <div class="card">
+        <table class="gameHolder">
+            <tbody>
+            <tr style="margin: 8px;">
+                <td class="td3class">
+                    <table style="max-width: 100%;">
+                        <tbody>
+                        <tr>
+                            <td class="td1class">
+                                Flags remaining :                         <input type="text" class="flagCounter" size="3" ng-model="myFlagCounter" />
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td class="td2class">
+                    <table class="minefield">
+                        <tbody>
+                        <tr bindonce="" ng-repeat="row in minefield">
+                            <td bindonce="" ng-repeat="square in row track by $id(square)" ng-click="clickOnSquare(square)">
+                                <div ng-show="!square.isClicked && square.flag==false" class="hiddenCell" ng-mousedown="handleClick($event,square)" oncontextmenu="return false">
+                                    <div ng-show="myCheckBox&& square.content != 0&& square.content != 'bomb'" style="opacity: 0.5;">
+                                        <h class="number{{square.content}}">{{square.content}}</h>
+                                    </div>
+                                    <div ng-show="myCheckBox&& square.content == 'bomb'" style="opacity: 0.5;">
+                                        <img src="pic/bomb.png" class="smallBomb" />
+                                    </div>
+                                </div>
+                                <div ng-show="!square.isClicked && square.flag==true" class="hiddenCell" ng-mousedown="handleClick($event,square)" oncontextmenu="return false">
+                                    <div class="clickedCell1ChildFlag">
+                                        <img src="pic/flag.png" class="flag" />
+                                    </div>
+                                </div>
+                                <div ng-show="square.isClicked && square.content != 'bomb'" class="clickedCell">
+                                    <div class="clickedCell1Child">
+                                        <h class="number{{square.content}}">{{square.content}}</h>
+                                    </div>
+                                </div>
+                                <div ng-show="square.isClicked && square.content == 'bomb' && !square.bomb" class="clickedCellBomb">
+                                    <div class="clickedCell1ChildBomb">
+                                        <img src="pic/bomb.png" class="bomb" />
+                                    </div>
+                                </div>
+                                <div ng-show="square.isClicked && square.content == 'bomb' && square.bomb" class="clickedCellBomb">
+                                    <div class="clickedCell1ChildBomb">
+                                        <img src="pic/bomb.png" class="redBomb" />
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div id="myModal" class="modal fade " role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-body newGameForm">
+                <h2>New Game</h2>
+                <!--<h2>rows:18 cols:51 Mines:75</h2>-->
+                <form ng-submit="newGame()">
+                    <input type="text" ng-model="rowsInput" placeholder="Number Of Rows" />
+                    <br />
+                    <input type="text" ng-model="colsInput" placeholder="Number Of Columns" />
+                    <br />
+                    <input type="text" ng-model="numberOfMinesInput" placeholder="Number Of Mines" />
+                    <br />
+                    <input type="submit" value="New Game" />
+                    <input class="closeBut" data-dismiss="modal" type="submit" value="Close" />
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+</html>
