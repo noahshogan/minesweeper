@@ -1,6 +1,6 @@
 var rows = Math.floor((window.screen.availHeight-230)/25);
 var cols= Math.floor((window.screen.availWidth-5)/25);
-var numberOfMines=75;
+var numberOfMines=rows*cols/200;
 var cellCounter = numberOfMines;
 var flagCounter = numberOfMines;
 var mineList=[];
